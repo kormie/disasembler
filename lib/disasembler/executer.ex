@@ -17,13 +17,12 @@ defmodule Disasembler.Executer do
   end
 
   defp get_erl(abstract) do
-    :erl_prettypr.format(:erl_syntax.form_list(abstract))
+    abstract
+    |> :erl_syntax.form_list()
+    |> :erl_prettypr.format()
   end
 
-  defp get_abstract(beam_chunks) do
-    {:ok, {_, [{:abstract_code, {_, ac}}]}} = beam_chunks
-    ac
-  end
+  defp get_abstract({:ok, {_, [{:abstract_code, {_, ac}}]}}), do: ac
 
   defp extract_code(file_name) do
     file_name
